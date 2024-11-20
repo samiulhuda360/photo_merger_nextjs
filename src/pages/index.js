@@ -55,7 +55,8 @@ const PhotoIDMergeTool = () => {
 
   
 
-const stageHeight = orientation === "portrait" ? stageWidth * 1.375 : stageWidth * 0.6;
+const stageHeight = stageWidth * (orientation === "portrait" ? 1.375 : 0.6);
+
 
 const frontImageDefaultPosition = useMemo(() => ({
   x: orientation === "portrait"
@@ -134,6 +135,11 @@ useEffect(() => {
         console.error('Konva is not loaded');
         return;
       }
+
+      // Set consistent dimensions for export
+      const width = stageWidth * 1.2;
+      const height = stageHeight;
+
   
       // Wait for a moment to ensure all components are rendered
       setTimeout(() => {
@@ -174,8 +180,8 @@ useEffect(() => {
             const backgroundRect = new window.Konva.Rect({
               x: 0,
               y: 0,
-              width: stage.width(),
-              height: stage.height(),
+              width: width,
+              height: height,
               fill: "white",
             });
   
@@ -238,12 +244,11 @@ useEffect(() => {
   return (
     <div className="min-h-screen sm:bg-gray-100 py-8">
       <div className="max-w-4xl mx-auto bg-white shadow-lg border border-teal-500 rounded-lg py-6 px-3 sm:px-8">
-        <h1 className="text-3xl font-bold text-center text-teal-600 mb-6">
-          Photo Merge Tool with Drag and Drop
+        <h1 className="text-4xl font-bold text-center text-teal-600 mb-6">
+            ID Card Front and Back Merger Tool
         </h1>
-        <p className="text-center text-gray-500 mb-10">
-          Upload, scale, rotate, and drag images to position them on the canvas.
-        </p>
+        <p className="text-1xl text-center text-gray-500 mb-10">
+        Effortlessly combine the front and back sides of your ID card into a single page. This tool allows you to upload, scale, rotate, and position images with ease, making it perfect for creating professional-looking ID card layouts. Simplify your workflow and get your ID cards ready in no time!</p>
         
         <div className="flex items-center justify-center space-x-4 mb-4">
         <label
@@ -378,51 +383,52 @@ useEffect(() => {
                   Upload Back Image
                 </label>
                 <div className="relative">
-                    <input
-                      type="file"
-                      className="hidden"
-                      id="back-upload"
-                      ref={backFileInputRef} // Attach a ref to reset the input
-                      onChange={(e) => handleFileChange(e, setBackImage)}
-                    />
-                    <label
-                      htmlFor="back-upload"
-                      className="border-2 border-dashed border-teal-400 rounded-lg h-52 mx-auto flex flex-col items-center justify-center bg-gray-100 hover:bg-gray-200 cursor-pointer text-gray-600 relative"
-                    >
-                      {backImage ? (
+                  <input
+                    type="file"
+                    className="hidden"
+                    id="back-upload"
+                    ref={backFileInputRef} // Attach a ref to reset the input
+                    onChange={(e) => handleFileChange(e, setBackImage)}
+                  />
+                  <label
+                    htmlFor="back-upload"
+                    className="border-2 border-dashed border-teal-400 rounded-lg h-52 mx-auto flex flex-col items-center justify-center bg-gray-100 hover:bg-gray-200 cursor-pointer text-gray-600 relative"
+                  >
+                    {backImage ? (
+                      <>
                         <img
                           src={backImage}
                           alt="Back"
                           className="h-full object-contain rounded-md mx-auto"
                         />
-                      ) : (
-                        <>
-                          <img
-                            src="/image-upload-icon.png" // Path to the icon in the public folder
-                            alt="Upload Icon"
-                            className="w-12 h-12 mb-2" // Adjust size of the icon
-                          />
-                          <span>Click to upload back image</span>
-                        </>
-                      )}
-                    </label>
-                    {backImage && (
-                      <div className="absolute inset-0 flex items-center justify-center bg-gray-900 bg-opacity-50">
-                        <button
-                          onClick={(e) => {
-                            e.preventDefault(); // Prevent default button behavior
-                            setBackImage(null); // Clear the image
-                            if (backFileInputRef.current) {
-                              backFileInputRef.current.value = ""; // Reset the file input
-                            }
-                          }}
-                          className="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-400"
-                        >
-                          Remove
-                        </button>
-                      </div>
+                        {/* Hover overlay with remove button */}
+                        <div className="absolute inset-0 bg-gray-900 bg-opacity-50 flex items-center justify-center opacity-0 hover:opacity-100 transition-opacity duration-300">
+                          <button
+                            onClick={(e) => {
+                              e.preventDefault(); // Prevent default button behavior
+                              setBackImage(null); // Clear the image
+                              if (backFileInputRef.current) {
+                                backFileInputRef.current.value = ""; // Reset the file input
+                              }
+                            }}
+                            className="px-4 py-2 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-400"
+                          >
+                            Remove
+                          </button>
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <img
+                          src="/image-upload-icon.png" // Path to the icon in the public folder
+                          alt="Upload Icon"
+                          className="w-12 h-12 mb-2" // Adjust size of the icon
+                        />
+                        <span>Click to upload back image</span>
+                      </>
                     )}
-                  </div>
+                  </label>
+                </div>
 
                 <div className="mt-4">
                   <label className="block text-sm text-gray-600">Scale</label>
@@ -470,7 +476,7 @@ useEffect(() => {
             <div className="w-full bg-white shadow-lg border-4">
               {stageWidth > 0 && (
                <Stage
-                width={stageWidth * 1.2}
+                width={stageWidth * 1.1}
                 height={stageHeight}
                 className="konvajs-content" // Add this class
                 ref={(node) => {
