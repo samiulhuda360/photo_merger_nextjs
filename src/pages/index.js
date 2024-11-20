@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect, useMemo } from "react";
 import DraggableImage from "@/components/DraggableImage";
 // import { Rect, Text } from "react-konva";
+import Image from "next/image";
 
 import dynamic from "next/dynamic";
 
@@ -243,10 +244,23 @@ useEffect(() => {
   
   return (
     <div className="min-h-screen sm:bg-gray-100 py-8">
-      <div className="max-w-4xl mx-auto bg-white shadow-lg border border-teal-500 rounded-lg py-6 px-3 sm:px-8">
-        <h1 className="text-4xl font-bold text-center text-teal-600 mb-6">
-            ID Card Front and Back Merger Tool
-        </h1>
+  <div className="max-w-4xl mx-auto bg-white shadow-lg border border-teal-500 rounded-lg py-6 px-3 sm:px-8">
+    <div className="flex items-center justify-between mb-6">
+      {/* H1 on the left */}
+      <h1 className="text-4xl font-bold text-teal-600">
+        ID Card Front and Back Merger Tool
+      </h1>
+      {/* Image on the right */}
+      <div className="relative w-32 h-28"> {/* Wrapper to set the width/height */}
+        <Image
+          src="/merge-image.png" // Path to the image in the public folder
+          alt="Merge Tool"
+          layout="fill" // Ensures the image fills the parent container
+          objectFit="contain" // Keeps the aspect ratio of the image
+          priority // Ensures the image loads quickly
+        />
+      </div>
+    </div>
         <p className="text-1xl text-center text-gray-500 mb-10">
         Effortlessly combine the front and back sides of your ID card into a single page. This tool allows you to upload, scale, rotate, and position images with ease, making it perfect for creating professional-looking ID card layouts. Simplify your workflow and get your ID cards ready in no time!</p>
         
