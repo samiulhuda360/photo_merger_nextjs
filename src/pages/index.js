@@ -61,7 +61,7 @@ const stageHeight = stageWidth * (orientation === "portrait" ? 1.375 : 0.6);
 
 const frontImageDefaultPosition = useMemo(() => ({
   x: orientation === "portrait"
-    ? (stageWidth - stageWidth * 0.1) / 2
+    ? (stageWidth - stageWidth * 0.01) / 2
     : stageWidth * 0.08 + stageWidth * 0.4 / 2, // Center horizontally within left half for landscape
   y: orientation === "portrait"
     ? (stageHeight * 0.6 - stageHeight * 0.42) / 2 + stageHeight * 0.3 / 2 // Center vertically in top half for portrait
@@ -70,7 +70,7 @@ const frontImageDefaultPosition = useMemo(() => ({
 
 const backImageDefaultPosition = useMemo(() => ({
   x: orientation === "portrait"
-    ? (stageWidth - stageWidth * 0.9) / 2 + stageWidth * 0.8 / 2 // Center horizontally for portrait
+    ? (stageWidth - stageWidth * 0.01) / 2 // Center horizontally for portrait
     : stageWidth * 0.6 + stageWidth * 0.4 / 2, // Center horizontally within right half for landscape
   y: orientation === "portrait"
     ? stageHeight / 2 + (stageHeight * 0.40) / 2 // Center vertically in bottom half for portrait
@@ -370,7 +370,6 @@ useEffect(() => {
                   </label>
                 </div>
 
-
                 <div className="mt-4">
                   <label className="block text-sm text-gray-600">Scale</label>
                   <input
@@ -578,22 +577,25 @@ useEffect(() => {
                           imageUrl={frontImage}
                           x={frontImagePosition.x}
                           y={frontImagePosition.y}
+                          rectWidth={orientation === "portrait" ? stageWidth * 0.8 : stageWidth * 0.44} // Match Rect width
+                          rectHeight={orientation === "portrait" ? stageHeight * 0.3 : stageHeight * 0.42} // Match Rect height
                           scale={frontImageScale}
                           rotation={frontImageRotation}
                           setPosition={setFrontImagePosition}
-                        />
+                        />                      
                       )}
-
                       {/* Back Image */}
                       {backImage && (
                         <DraggableImage
                           imageUrl={backImage}
                           x={backImagePosition.x}
                           y={backImagePosition.y}
+                          rectWidth={orientation === "portrait" ? stageWidth * 0.8 : stageWidth * 0.44} // Match Rect width
+                          rectHeight={orientation === "portrait" ? stageHeight * 0.3 : stageHeight * 0.42} // Match Rect height
                           scale={backImageScale}
                           rotation={backImageRotation}
                           setPosition={setBackImagePosition}
-                        />
+                        />                      
                       )}
                     </Layer>
                 </Stage>
